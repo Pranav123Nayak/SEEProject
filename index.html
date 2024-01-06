@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personal Website</title>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <style>
+        *{
+            margin:0;
+            padding:0;
+            box-sizing: border-box;
+            text-decoration: none;
+            border: none;
+            outline: none;
+            scroll-behavior: smooth;
+            font-family: 'Poppins',sans-serif;
+        }
+        :root{
+            --bg-color:#fdfdfd;
+            --text-color:#333;
+            --main-color:#754ef9;
+            --white-color:#fdfdfd;
+            --shadow-color:rgba(0,0,0, .2);
+        }
+        html{
+            font-size:62.5%;
+            overflow-x:hidden;
+        }
+        body{
+            background: var(--bg-color);
+            color: var(--text-color);
+        }
+        .header{
+            position: fixed;
+            top:0;
+            left:0;
+            width:100%;
+            padding:2rem 7%;
+            background: transparent;
+            display: flex;
+            align-items:center;
+            z-index: 100;
+            transition: .5s;
+        }
+        .header.sticky{
+            background: var(--bg-color);
+            box-shadow: 0 .1rem 1rem var(--shadow-color);
+        }
+        .logo{
+            font-size:2.5rem;
+            color: var(--main-color);
+            font-weight: 600;
+            cursor: default;
+            margin-right: auto;
+        }
+        .navbar a{
+            position: relative;
+            font-size:1.7rem ;
+            color: var(--white-color);
+            font-weight: 500;
+            margin-right: 3.5rem;
+        }
+        .header.sticky .navbar a{
+            color: var(--text-color);  
+        }
+        .header.sticky .navbar a.active{
+            color: var(--main-color);
+        }
+        .navbar a.active::before{
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom:-6px;
+            width: 100%;
+            height: 0.2rem;;
+            background:var(--white-color);
+        }
+        .header.sticky .navbar a::before{
+            background: var(--main-color);
+            opacity: .7;
+        }
+        #darkMode-icon{
+            font-size: 2.4rem;
+            color: var(--white-color);
+            cursor: pointer;
+        }
+        .header.sticky #darkMode-icon{
+          color: var(--text-color);
+          opacity: .9;  
+        }
+        section{
+            min-height: 100vh;
+            padding:10rem 7% 2rem;
+        }
+        .home {
+            display: flex;
+            align-items: center;
+        }
+        .home .home-content{
+            max-width: 44rem;
+        }
+        .home-content h3{
+            font-size: 3.2rem;
+            font-weight:700;
+            line-height: 0.3;
+        }
+        .home-content h1{
+            font-size: 5.6rem;
+            font-weight: 700;
+            margin-bottom: 0.3rem;
+        }
+        .home-content p{
+           font-size: 1.6rem;
+
+        }
+        .home-content .social-media a{
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            width:4rem;
+            height:4rem;
+            background:transparent ;
+            border: 0.2rem solid var(--main-color);
+            border-radius: 50%;
+            box-shadow: 0.2rem 0.5rem var(--shadow-color);
+            font-size: 2rem;
+            color: var(--main-color);
+            margin: 2.5rem 1.5rem 3rem 0;
+            transition:0.5s ease;
+        }
+        .home-content .social-media a:hover{
+            background: var(--main-color);
+            color: var(--white-color);
+        }
+        .home .profession-container{
+          position: absolute;
+          top: 50%;
+          right: 0;
+          transform: translateY(-50%);
+          width:768px;
+          height: 768px;
+          overflow:hidden;
+          pointer-events: none;
+        }
+        .home .profession-container .profession-box{
+            position: absolute;
+            top:0;
+            right: 0;
+            width: 768px;
+            height: 768px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            animation:professionRotate 5s ease-out infinite;
+        }
+
+        @keyframes professionRotate{
+            0%,20%{transform:rotate(0deg);
+            }
+            25%,45%{transform:rotate(-90deg);
+            }
+            50%,70%{transform:rotate(-180deg);
+            }
+            75%,95%{transform:rotate(-270deg);
+            }
+            100%{transform:rotate(-360deg);
+            }
+        }
+        .home .profession-box .profession{
+            position: absolute;
+            left: 0;
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            color:var(--main-color) ;
+            transform: rotate(calc(360deg / 4 * var(--i)));
+            transform-origin:384px;
+            background:var(--bg-color);
+            padding: 13px 0;
+        }
+        .home .profession-box .profession:nt-child(1) i{
+            margin-right: 15px;
+        }
+        .home .profession-box .profession:nth-child(2),
+        .home .profession-box .profession:nth-child(4) {
+            padding-bottom: 20px;
+        }
+        .home .profession i{
+            font-size: 3.8rem;           
+        }
+        .home .profession h3{
+            font-size: 3.2rem;
+            line-height: 1;
+            font-weight: 600;
+        }
+        .home .profession-box .circle{
+            width: 560px;
+            height:560px;
+            border: 3px solid var(--main-color);
+            border-radius: 50%;
+        }
+        .home .profession-container .overlay{
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 0;
+            height: 0;
+            border-top: 384px solid var(--main-color);
+            border-right: 384px solid var(--main-color);
+            border-bottom: 384px solid var(--main-color);
+            border-left: 384px solid transparent;
+        }
+        .home-img img{
+           position: absolute;
+           bottom: 0;
+           right:0;
+           width:100%;
+           pointer-events: none;
+
+        }
+        .home-img {
+    position: absolute;
+    bottom: 50%;
+    right: 22%;
+    transform: translate(50%, 50%);
+    width: 350px; 
+    height: 473px; 
+    border-radius: 50%; 
+    overflow: hidden; 
+    z-index: 2; 
+}
+
+.home-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; 
+}
+span{
+            color: var(--main-color);
+        }
+        .about{
+            display: flex;
+            justify-content: center;
+            align-items:center ;
+            gap: 4rem;
+        }
+        .about-img img{
+            width:500px;
+        }
+        .heading{
+            font-size:4.5rem;
+            text-align: center;
+        }
+        .about-content h2{
+         text-align: left;
+         line-height: 1.2;
+        }
+        .about-content h3{
+            font-size: 2rem;
+        }
+        .about-content p{
+            font-size: 1.6rem;
+            margin:2rem 0 3rem;;
+        }
+        .Passion .Passion-container{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+        .Passion-container .Passion-box{
+            flex: 1 1 30rem;
+            background: var(--bg-color);
+            padding: 3rem 2rem 4rem;
+            border-radius: 2rem;
+            box-shadow:0 .1rem .5rem var(--shadow-color) ;
+            text-align: center;
+            border-top: .6rem solid var(--main-color);
+            border-bottom: .6rem solid var(--main-color);
+            transition: .5s ease;
+        }
+        .Passion-container .Passion-box:hover{
+            box-shadow: 0 .1rem 2rem var(--shadow-color);
+            transform: scale(1.02);
+        }
+        .Passion-box i{
+            font-size: 7rem;
+            color:var(--main-color);
+        }
+        .Passion-box h3{
+            font-size: 2.6rem;
+            transition: .5s ease;
+        }
+        .Passion-box:hover h3{
+            color:var(--main-color)
+        }
+        .Passion-box p{
+          font-size: 1.6rem;
+          margin:1rem 0 3rem;
+        }
+        .Passion h2{
+            margin-bottom: 5rem;
+        }
+        .Passion{
+            min-height:auto ;
+            padding-bottom: 7rem;
+        }
+        .Projects{
+            padding-bottom:10rem ;
+        }
+        .Projects h2{
+            margin-bottom: 4rem;
+        }
+        .Projects .Projects-container{
+            display: grid;
+            grid-template-columns: repeat(3,1fr);
+            align-items:center;
+            gap:2.5rem;
+        }
+        .Projects-container .Projects-box{
+            position: relative;
+            display: flex;
+            border-radius: 2rem;
+            box-shadow: 0 0 1rem rgba(0, 0, 0, .1);
+            overflow:hidden;
+        }
+        .Projects-box img{
+            width:100% ;
+            align-items: center;
+        }
+        .Projects-box .Projects-layer{
+            position:absolute;
+            bottom: 0;
+            left:0;
+            width:100%;
+            height:100%;
+            background: linear-gradient(rgba(0, 0, 0, .1),var(--main-color));
+            color:var(--white-color);
+            display:flex;
+            align-items: center;
+            text-align: center;
+            padding: 0 4rem;
+        }
+        .Projects-layer h4{
+            font-size: 3rem;
+        }
+        .Projects-layer p{
+            font-size:1.6rem;
+            margin:.3rem 0 1rem;
+        }
+        .Projects-layer a{
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            width:5rem;
+            height: 5rem;
+            background: var(--white-color);
+            border-radius: 50%;
+        }
+        .contact h2{
+            margin-bottom: 3rem;
+        }
+        .contact fieldset{
+            max-width:70rem;
+            margin:1rem auto;
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        .contact fieldset .input-box{
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+        .contact fieldset .input-box input,
+        .contact fieldset textarea{
+            width:100%;
+            padding:1.5rem;
+            font-size: 1.6rem;
+            color: var(--text-color);
+            background: var(--bg-color);
+            border-radius: 0.8rem;
+            margin: .7rem 0;
+            box-shadow:0 .1rem .5rem var(--shadow-color) ;
+        }
+        .contact fieldset .input-box input{
+            width: 49%;
+        }
+        .btn {
+    display: inline-block;
+    padding: 1rem 2rem;
+    font-size: 1.6rem;
+    font-weight: 600;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    border: 2px solid var(--main-color);
+    border-radius: 0.8rem;
+    color: var(--main-color);
+    background-color: transparent;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.btn:hover {
+    background-color: var(--main-color);
+    color: var(--white-color);
+}
+.footer{
+    display: flex;
+    justify-content: space-between;
+    align-items:center ;
+    flex-wrap: wrap;
+    padding: 2rem 7%;
+    background:var(--main-color);
+}
+.footer-text{
+    font-size: 1.6rem;
+    color: var(--white-color);
+}
+.footer-iconTop a{
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0.8rem;
+    background: var(--white-color);
+    border-radius: 0.8rem;
+    border: 0.2rem solid var(--main-color);
+    outline: 0.2rem solid transparent;
+}
+.footer-iconTop a:hover{
+outline-color: var(--white-color);
+}
+.footer-iconTop a i{
+    font-size: 2.4rem;
+    color: #333;
+}
+    </style>
+</head>
+<body>
+    <header class="header">
+       <a href="index.html" class="logo">Portfolio</a>
+       
+       <nav class="navbar">
+        <a href="index.html" class="active">Home</a>
+        <a href="About.html">About Me</a>
+        <a href="Passion.html">Passion</a>
+        <a href="Projects.html">Projects</a>
+        <a href="Contact.html">Contact</a>
+       </nav>
+
+       <div class="bx bx-moon" id="darkMode-icon"></div>
+    </header>
+    <section class="home" id="home">
+        <div class="home-content">
+            <h3>Hello,I am</h3>
+            <h1>Pranav Nayak</h1>
+            <p>Hi, I'm Pranav, a dedicated computer science student. Embracing the world of coding and algorithms, I thrive on solving complex problems.
+                 Constantly exploring new technologies, my curiosity fuels my journey to become a tech innovator. Fusing creativity with technical skills,
+                  I'm on a mission to shape the future of computing.</p>
+
+                <div class="social-media">
+                    <a href="https://twitter.com/P0pc0rnS1ay3R"><i class='bx bxl-twitter'></i></a>
+                    <a href="https://www.instagram.com/p0pc0rns1ay3r/"><i class='bx bxl-instagram-alt'></i></a>
+                </div>  
+        </div>
+        <div class="profession-container">
+            <div class="profession-box">
+                <div class="profession" style="--i:0;">
+                    <i class='bx bx-code-alt' ></i>
+                    <h3>Web Developer</h3>
+                </div>
+                <div class="profession" style="--i:1;">
+                    <i class='bx bx-bar-chart-alt-2' ></i>
+                    <h3>Data Scientist</h3>
+                </div>
+                <div class="profession" style="--i:2;">
+                    <i class='bx bx-code-curly'></i>
+                    <h3>Programmer</h3>
+                </div>
+                <div class="profession" style="--i:3;">
+                    <i class='bx bxs-tennis-ball'></i>
+                    <h3>Tennis Player</h3>
+                </div>
+
+                <div class="circle"></div>
+            </div>
+
+            <div class="overlay"></div>
+        </div>
+        <div class="home-img">
+            <img src="C:\Users\prana\OneDrive\Desktop\school results\IMG_4720 copy.jpg">
+        </div>
+    </section>
+    <section class="about" id="about">
+        <div class="about-img">
+          <img src="C:\Users\prana\OneDrive\Pictures\Screenshots\Screenshot 2024-01-05 205534.png">  
+        </div>
+        <div class="about-content">
+            <h2 class="heading">About <span>Me</span></h2>
+            <h3>Hi,I am Pranav Nayak and im ready for my next Project</h3>
+            <p>As a devoted computer science student, I delve into technology's intricacies. I'm a part-time web developer, crafting innovative digital experiences, and a data scientist, decoding insights from complex datasets. Balancing academia with hands-on work, I seamlessly merge creativity with technical prowess. Committed to perpetual learning, I navigate the evolving computing landscape, aiming to contribute and innovate in both web development and data science realms.</p>
+        </div>
+    </section>
+    <section class="Passion" id="Passion">
+        <h2 class="heading">My<span>Passion</span></h2>
+        <div class="Passion-container">
+         <div class="Passion-box">
+             <i class='bx bx-code-alt'></i>
+             <h3>Web Development</h3>
+             <p>A dedicated student with a passion for web development, I thrive on creating dynamic and user-friendly digital experiences. Proficient in HTML, CSS, and JavaScript, I continuously explore emerging technologies to enhance my skills.</p>   
+         </div>
+         <div class="Passion-box">
+             <i class='bx bx-bar-chart-alt-2'></i>
+             <h3>Data scientist</h3>
+             <p>A meticulous student, I specialize in data science, unraveling insights from complex datasets. Proficient in statistical analysis and machine learning, I am adept at transforming raw data into valuable and actionable information for informed decision-making.</p>   
+         </div>
+         <div class="Passion-box">
+             <i class='bx bx-code-curly' ></i>
+             <h3>Programmer</h3>
+             <p>A dedicated student and versatile programmer, I navigate the intricacies of coding with enthusiasm. Proficient in multiple languages, I tackle challenges with logical precision, bringing innovative solutions to life through my programming expertise.</p>   
+         </div>
+         <div class="Passion-box">
+             <i class='bx bxs-tennis-ball' ></i>
+             <h3>Tennis Player</h3>
+             <p>An avid student and passionate tennis player, I find joy in the rhythm of the game. With dedication and discipline, I embrace the challenges of the court, continuously striving for improvement and sportsmanship.</p>   
+         </div>
+        </div>
+     </section>
+     <section class="Projects" id="Projects">
+        <h2 class="heading">My<span>Projects</span></h2>
+        <div class="Projects-container">
+            <div class="Portfolio-box">
+                <img src="C:\Users\prana\Downloads\WhatsApp Image 2023-12-20 at 9.02.48 PM.jpeg">
+                <div class="Projects-layer">
+                   <h4>DSCA Project</h4>
+                   <p>Crafted a Dark Sensor Lamp, an innovative project that automatically adjusts brightness based on ambient light. Seamlessly blending functionality and aesthetics, this energy-efficient solution enhances comfort in any environment.
+                   </p>   
+                </div>
+            </div>
+        </div>
+     </section>
+     <section class="contact" id="contact">
+        <h2 class="heading">Contact<span>Me</span></h2>
+        <fieldset>
+        <div class="input-box">
+            <input type="text" placeholder="Full Name">
+            <input type="email" placeholder="Email Address">
+        </div>
+        <div class="input-box">
+            <input type="number" placeholder="Mobile Number">
+            <input type="text" placeholder="Email Subject">
+        </div>
+        <textarea name="" id="" cols="30" rows="10" placeholder="Your Message"></textarea>
+        <input type="Submit" value="send Message" class="btn">
+    </fieldset>
+     </section>
+     <footer class="footer">
+        <div class="footer-text">
+            <p>Copyright &copy;2023 by Pranav Nayak</p>
+        </div>
+<div class="footer-iconTop">
+    <a href="index.html"><i class='bx bx-up-arrow-alt' ></i></a>
+</div>
+
+     </footer>
+    <script>
+        let sections=document.querySelectorAll('section');
+        let navLinks=document.querySelectorAll('header nav a');
+        window.onscroll = () => {
+            sections.forEach(sec=>{
+                let top=window.scrollY;
+                let offset=sec.offsetTop-150;
+                let height=sec.offsetHeight;
+                let id=sec.getAttribute('id');
+                if(top>=offset && top< offset+height){
+                  navLinks.forEach(links=>{
+                    links.classList.remove('active');
+                    document.querySelector('header nav a[href*=' + id + ']').classList.add('active');
+                  });  
+                };
+            });
+        let header=document.querySelector('.header');
+        header.classList.toggle('sticky',window.scrollY>100);};
+    </script>
+</body>
+</html>
